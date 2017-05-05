@@ -1,0 +1,28 @@
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <th>Id</th>
+            <th>Full name</th>
+            <th>ID card</th>
+            <th>PNC</th>
+            <th>Address </th>
+            <th></th>
+            <th></th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let patient of this.patients">
+                <td>{{patient.id}}</td>
+                <td>{{patient.fullName}}</td>
+                <td>{{patient.idCardSeries}} {{patient.idCardNumber}}</td>
+                <td>{{patient.personalNumericalCode}}</td>
+                <td>{{patient.address}}</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-danger" (click)="delete(patient.id)">Delete</button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-warning" [routerLink]="['../detail/',patient.id]">Details</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,11 @@
+<app-patient-form [model]="this.patient" (errorEmitter)="this.processEvent($event)">
+</app-patient-form>
+
+<button type="submit" class="btn btn-primary" [disabled]="this.error" (click)="onSubmit()">Submit</button>
+
+<div *ngIf="created==true">
+  <i class="fa fa-check fa-3x" style="color:green"></i> {{this.message}}
+</div>
+<div *ngIf="created==false">
+  <i class="fa fa-times fa-3x" style="color:red"></i> {{this.message}}
+</div>

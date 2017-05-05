@@ -1,0 +1,13 @@
+.box{
+	width:3.5rem;
+	height:1.8rem;
+    cursor: pointer;
+}
+ 
+.red{
+	background:#900;
+}
+
+.green{
+	background:#080;
+}

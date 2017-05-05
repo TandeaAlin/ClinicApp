@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="pull-left">
+    <button type="button" class="btn btn-info" [routerLink]="['..']">Back</button>
+  </div>
+
+  <div class="pull-right">
+    <button type="button" class="btn btn-warning" (click)="loadDoctorData()">Reset</button>
+    <button type="button" class="btn btn-success" (click)="submit()">Submit changes</button>
+  </div>
+</div>
+
+<div class="container" *ngIf="this.doctor">
+  <div class="row">
+    <div class="col-sm-2">Hour</div>
+    <div class="col-sm-1" *ngFor="let day of this.days">{{day}}</div>
+  </div>
+  <br>
+
+  <div class="row" *ngFor="let row of this.matrix; let i=index">
+    <div class="col-sm-2">{{i}}:00</div>
+
+    <div class="col-sm-1" *ngFor="let col of row; let j=index">
+      <p class="card  box" (click)="toggle(i,j)" [ngClass]="{'red': this.matrix[i][j], 'green': !this.matrix[i][j] }">
+      </p>
+    </div>
+  </div>
+</div>

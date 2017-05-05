@@ -1,0 +1,14 @@
+<div *ngIf="this.patient">
+  <app-patient-form [model]="this.patient" [editable]="this.editMode" (errorEmitter)="this.processEvent($event)">
+  </app-patient-form>
+
+
+  <div class="pull-right">
+    <span *ngIf="this.updated==true"><i class="fa fa-check fa-2x" style="color:green"></i> {{this.message}}</span>
+    <span *ngIf="this.updated==false"><i class="fa fa-times fa-2x" style="color:red"></i> {{this.message}}</span>
+    <button type="button" class="btn btn-primary" (click)="this.toggleMode()" *ngIf="!this.editMode">Edit</button>
+
+    <button type="submit" class="btn btn-success" (click)="onSubmit()" *ngIf="this.editMode" [disabled]="this.error">Submit</button>
+    <button type="button" class="btn btn-primary" (click)="this.toggleMode()" *ngIf="this.editMode">Cancel</button>
+  </div>
+</div>
