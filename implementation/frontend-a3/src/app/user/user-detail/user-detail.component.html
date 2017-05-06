@@ -1,4 +1,4 @@
-<div *ngIf="this.user">
+<div class="container" *ngIf="this.user">
   <app-user-form [model]="this.user" [editable]="this.editMode" (errorEmitter)="this.processEvent($event)">
   </app-user-form>
 

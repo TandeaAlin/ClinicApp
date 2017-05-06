@@ -29,7 +29,7 @@ export class UserAddComponent implements OnInit {
     if (this.form.validateInputs() == true) {
       this.userService.createUser(this.user)
         .subscribe(
-        book => {
+        user => {
           this.created = true;
           this.message = "The user was added sucessfully";
         },

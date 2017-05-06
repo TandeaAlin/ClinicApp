@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <th>Id</th>
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Starts at</th>
+                <th>Duration</th>
+                <th></th>
+                <th></th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let consultation of this.consultations">
+                    <td>{{consultation.id}}</td>
+                    <td>{{consultation.patient.fullName}}</td>
+                    <td>{{consultation.doctor.fullName}}</td>
+                    <td>
+                        <p>{{consultation.startTime | date:'mediumDate'}}</p>
+                        <p>{{consultation.startTime | date:'shortTime'}}</p>
+                    </td>
+                    <td>{{ (consultation.endTime - consultation.startTime) / (60 * 1000)}} min</td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-danger" (click)="delete(consultation.id)">Cancel</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-warning" [routerLink]="['../detail/',consultation.id]">Details</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

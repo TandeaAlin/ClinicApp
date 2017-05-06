@@ -1,6 +1,6 @@
 <div class="container">
-  <app-patient-form [model]="this.patient" (errorEmitter)="this.processEvent($event)">
-  </app-patient-form>
+  <app-consultation-form [model]="this.consultation" (errorEmitter)="this.processEvent($event)">
+  </app-consultation-form>
 
   <button type="submit" class="btn btn-primary" [disabled]="this.error" (click)="onSubmit()">Submit</button>
 

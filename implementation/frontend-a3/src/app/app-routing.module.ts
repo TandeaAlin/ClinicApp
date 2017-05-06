@@ -10,6 +10,11 @@ import { PatientListComponent } from './patient/patient-list/patient-list.compon
 import { PatientAddComponent } from './patient/patient-add/patient-add.component';
 import { PatientDetailComponent } from './patient/patient-detail/patient-detail.component';
 
+import { ConsultationListComponent } from './consultation/consultation-list/consultation-list.component';
+import { ConsultationAddComponent } from './consultation/consultation-add/consultation-add.component';
+import { ConsultationDetailComponent } from './consultation/consultation-detail/consultation-detail.component';
+
+
 const routes: Routes = [
   {
     path: '',
@@ -30,6 +35,14 @@ const routes: Routes = [
       { path: 'list', component: PatientListComponent },
       { path: 'add', component: PatientAddComponent },
       { path: 'detail/:id', component: PatientDetailComponent }
+    ]
+  },
+  {
+    path: 'consultation',
+    children: [
+      { path: 'list', component: ConsultationListComponent },
+      { path: 'add', component: ConsultationAddComponent},
+      { path: 'detail/:id', component: ConsultationDetailComponent}
     ]
   }
 ];

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
+import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +23,10 @@ import { PatientListComponent } from './patient/patient-list/patient-list.compon
 import { PatientAddComponent } from './patient/patient-add/patient-add.component';
 import { PatientFormComponent } from './patient/patient-form/patient-form.component';
 import { PatientDetailComponent } from './patient/patient-detail/patient-detail.component';
+import { ConsultationListComponent } from './consultation/consultation-list/consultation-list.component';
+import { ConsultationAddComponent } from './consultation/consultation-add/consultation-add.component';
+import { ConsultationFormComponent } from './consultation/consultation-form/consultation-form.component';
+import { ConsultationDetailComponent } from './consultation/consultation-detail/consultation-detail.component';
 
 @NgModule({
   declarations: [
@@ -38,14 +43,19 @@ import { PatientDetailComponent } from './patient/patient-detail/patient-detail.
     PatientListComponent,
     PatientAddComponent,
     PatientFormComponent,
-    PatientDetailComponent
+    PatientDetailComponent,
+    ConsultationListComponent,
+    ConsultationAddComponent,
+    ConsultationFormComponent,
+    ConsultationDetailComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     AppRoutingModule,
-    BootstrapModalModule
+    BootstrapModalModule,
+    NguiDatetimePickerModule
   ],
   providers: [
     HttpService
