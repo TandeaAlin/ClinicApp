@@ -14,6 +14,7 @@ import { UserDetailComponent } from './user/user-detail/user-detail.component';
 import { UserFormComponent } from './user/user-form/user-form.component';
 
 import { HttpService } from './service/http.service';
+import { AuthService } from './service/auth.service';
 
 import { ConfirmComponent } from './dialogs/confirm/confirm.component';
 import { InfoComponent } from './dialogs/info/info.component';
@@ -27,6 +28,7 @@ import { ConsultationListComponent } from './consultation/consultation-list/cons
 import { ConsultationAddComponent } from './consultation/consultation-add/consultation-add.component';
 import { ConsultationFormComponent } from './consultation/consultation-form/consultation-form.component';
 import { ConsultationDetailComponent } from './consultation/consultation-detail/consultation-detail.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,8 @@ import { ConsultationDetailComponent } from './consultation/consultation-detail/
     ConsultationListComponent,
     ConsultationAddComponent,
     ConsultationFormComponent,
-    ConsultationDetailComponent
+    ConsultationDetailComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +61,8 @@ import { ConsultationDetailComponent } from './consultation/consultation-detail/
     NguiDatetimePickerModule
   ],
   providers: [
-    HttpService
+    HttpService,
+    AuthService
   ],
   entryComponents: [
     ConfirmComponent,
