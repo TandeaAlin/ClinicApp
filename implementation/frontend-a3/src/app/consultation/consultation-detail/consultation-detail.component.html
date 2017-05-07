@@ -1,4 +1,5 @@
-<div class="container" *ngIf="this.consultation">
+<div class="container bg-inverse text-white"  style="opacity:0.97;" *ngIf="this.consultation">
+  <br>
   <app-consultation-form [model]="this.consultation" [editable]="this.editMode" (errorEmitter)="this.processEvent($event)">
   </app-consultation-form>
 
@@ -10,4 +11,6 @@
     <button type="submit" class="btn btn-success" (click)="onSubmit()" *ngIf="this.editMode" [disabled]="this.error">Submit</button>
     <button type="button" class="btn btn-primary" (click)="this.toggleMode()" *ngIf="this.editMode">Cancel</button>
   </div>
+  <br>
+  <br>
 </div>

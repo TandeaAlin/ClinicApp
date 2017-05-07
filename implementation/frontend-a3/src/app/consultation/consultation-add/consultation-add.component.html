@@ -1,4 +1,5 @@
-<div class="container">
+<div class="container  bg-inverse text-white" style="opacity:0.97;">
+  <br>
   <app-consultation-form [model]="this.consultation" (errorEmitter)="this.processEvent($event)">
   </app-consultation-form>
 
@@ -10,4 +11,6 @@
   <div *ngIf="created==false">
     <i class="fa fa-times fa-3x" style="color:red"></i> {{this.message}}
   </div>
+  <br>
+  <br>
 </div>

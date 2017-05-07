@@ -4,6 +4,16 @@
   text-align: center;
 }
 
-body {
-  margin: 0;
+html, body{
+  height: 100%;
+}
+body { 
+      background: #141E30;
+      background: linear-gradient(to bottom left, #141E30 0%, #243B55 100%);
+      background-position: center center;
+      background-repeat:  no-repeat;
+      background-attachment: fixed;
+      background-size:  cover;
+      left: 0;
+      width: 100%;
 }

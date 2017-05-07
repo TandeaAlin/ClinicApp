@@ -1,11 +1,12 @@
-<div class="container" *ngIf="this.user">
+<div class="container bg-inverse text-white" style="opacity:0.97;" *ngIf="this.user">
+  <br>
   <app-user-form [model]="this.user" [editable]="this.editMode" (errorEmitter)="this.processEvent($event)">
   </app-user-form>
 
 
   <div class="pull-left">
     <button type="button" class="btn btn-danger" (click)="changePassword()"> Change password</button>
-    <button type="button" class="btn btn-warning" *ngIf="this.user.roles[0].name=='doctor'" [routerLink]="['schedule']">Edit Schedule</button>
+    <button type="button" class="btn btn-warning" *ngIf="this.user.roles[0].name=='DOCTOR'" [routerLink]="['schedule']">Edit Schedule</button>
   </div>
 
   <div class="pull-right">
@@ -15,5 +16,7 @@
 
     <button type="submit" class="btn btn-success" (click)="onSubmit()" *ngIf="this.editMode" [disabled]="this.error">Submit</button>
     <button type="button" class="btn btn-primary" (click)="this.toggleMode()" *ngIf="this.editMode">Cancel</button>
+    <br>
+    <br>
   </div>
 </div>
