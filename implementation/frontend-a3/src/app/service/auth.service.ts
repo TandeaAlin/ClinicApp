@@ -74,7 +74,7 @@ export class AuthService {
       return false;
     }
     
-    return (this.roles.includes('EMPLOYEE')); 
+    return (this.roles.includes('SECRETARY')); 
   }
 
    public isDoctor(): Boolean{

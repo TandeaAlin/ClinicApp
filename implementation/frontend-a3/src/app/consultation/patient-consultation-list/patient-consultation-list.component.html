@@ -1,0 +1,48 @@
+<div class="input-group">
+
+  <select class="form-control custom-select" [(ngModel)]="this.selectedPatient" id="selectedPatient" name="selectedPatient">
+    <option *ngFor="let patient of this.patients" [ngValue]="patient" >{{patient.fullName}}</option>
+  </select>
+
+  <span class="input-group-btn">
+    <button class="btn btn-secondary" type="button" (click)="search()">
+      <i class="fa fa-search" style="opacity:0.5"></i>
+    </button>
+    </span>
+</div>
+
+<br>
+
+<div class="text-white" *ngIf="this.message">
+    <i class="fa fa-times fa-3x" style="color:red"></i> {{this.message}}
+</div>
+
+<br>
+
+<div class="container"  style="opacity:0.97;" *ngIf="this.consultations">
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-inverse">
+            <thead>
+                <th>Id</th>
+                <th>Patient</th>
+                <th>Starts at</th>
+                <th>Duration</th>
+                <th></th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let consultation of this.consultations" (dblclick)="gotoDetails(user)">
+                    <td>{{consultation.id}}</td>
+                    <td>{{consultation.patient.fullName}}</td>
+                    <td>
+                        <p>{{consultation.startTime | date:'mediumDate'}}</p>
+                        <p>{{consultation.startTime | date:'shortTime'}}</p>
+                    </td>
+                    <td>{{ (consultation.endTime - consultation.startTime) / (60 * 1000)}} min</td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-primary" [routerLink]="['../observations/',consultation.id]">Details</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -15,7 +15,9 @@ import { PatientDetailComponent } from './patient/patient-detail/patient-detail.
 import { ConsultationListComponent } from './consultation/consultation-list/consultation-list.component';
 import { ConsultationAddComponent } from './consultation/consultation-add/consultation-add.component';
 import { ConsultationDetailComponent } from './consultation/consultation-detail/consultation-detail.component';
-
+import { ObservationsComponent } from './consultation/observations/observations.component';
+import { UpcomingConsultationListComponent } from './consultation/upcoming-consultation-list/upcoming-consultation-list.component';
+import { PatientConsultationListComponent } from './consultation/patient-consultation-list/patient-consultation-list.component';
 
 const routes: Routes = [
   {
@@ -47,8 +49,13 @@ const routes: Routes = [
     path: 'consultation',
     children: [
       { path: 'list', component: ConsultationListComponent },
-      { path: 'add', component: ConsultationAddComponent},
-      { path: 'detail/:id', component: ConsultationDetailComponent}
+      { path: 'add', component: ConsultationAddComponent },
+      { path: 'detail/:id', component: ConsultationDetailComponent },
+      { path: 'observations/:id', component: ObservationsComponent },
+      { path: 'list-upcoming', component: UpcomingConsultationListComponent },
+      { path: 'list-patient', component: PatientConsultationListComponent }
+      // patient=
+      // upcoming
     ]
   }
 ];

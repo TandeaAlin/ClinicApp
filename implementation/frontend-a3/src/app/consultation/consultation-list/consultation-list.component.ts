@@ -4,6 +4,7 @@ import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../../dialogs/confirm/confirm.component';
 import { InfoComponent } from '../../dialogs/info/info.component';
 
+import { AuthService } from '../../service/auth.service';
 import { ConsultationService } from '../../service/consultation.service';
 import { Consultation } from '../../model/consultation';
 
@@ -19,6 +20,7 @@ export class ConsultationListComponent implements OnInit {
   private consultations: Consultation[];
 
   constructor(
+    private authService: AuthService,
     private consultationService: ConsultationService,
     private dialogService: DialogService
   ) { }
@@ -28,7 +30,9 @@ export class ConsultationListComponent implements OnInit {
   }
 
   private loadConsultationData(): void {
-    this.consultationService.getConsultations().subscribe(consultations => this.consultations = consultations);
+    this.consultationService.getConsultations().subscribe(consultations => {
+      this.consultations = consultations;
+    });
   }
 
   private delete(id: number): void {

@@ -10,6 +10,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import { Consultation } from '../model/consultation';
+import { Patient } from '../model/patient';
 
 @Injectable()
 export class ConsultationService {
@@ -32,6 +33,16 @@ export class ConsultationService {
   // The day should be in ISO8601 format
   getConsultationByDay(day: string): Observable<Consultation[]> {
     return this.httpService.get(this.consultationUrl + 'day=' + day)
+      .map((res: Response) => res.json());
+  }
+
+  getUpcomingConsultations(): Observable<Consultation[]> {
+    return this.httpService.get(this.consultationUrl + 'upcoming')
+      .map((res: Response) => res.json());
+  }
+
+  getConsultationsByPatient(patient: Patient): Observable<Consultation[]> {
+    return this.httpService.get(this.consultationUrl + 'patientId=' + patient.id)
       .map((res: Response) => res.json());
   }
 

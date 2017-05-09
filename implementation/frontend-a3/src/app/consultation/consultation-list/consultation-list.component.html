@@ -1,4 +1,4 @@
-<div class="container"  style="opacity:0.97;">
+<div class="container"  style="opacity:0.97;" *ngIf="this.authService.isSecretary()">
     <div class="table-responsive">
         <table class="table table-bordered table-hover table-inverse">
             <thead>
@@ -25,6 +25,34 @@
                     </td>
                     <td>
                         <button type="button" class="btn btn-sm btn-warning" [routerLink]="['../detail/',consultation.id]">Details</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="container"  style="opacity:0.97;" *ngIf="this.authService.isDoctor()">
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-inverse">
+            <thead>
+                <th>Id</th>
+                <th>Patient</th>
+                <th>Starts at</th>
+                <th>Duration</th>
+                <th></th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let consultation of this.consultations" (dblclick)="gotoDetails(user)">
+                    <td>{{consultation.id}}</td>
+                    <td>{{consultation.patient.fullName}}</td>
+                    <td>
+                        <p>{{consultation.startTime | date:'mediumDate'}}</p>
+                        <p>{{consultation.startTime | date:'shortTime'}}</p>
+                    </td>
+                    <td>{{ (consultation.endTime - consultation.startTime) / (60 * 1000)}} min</td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-primary" [routerLink]="['../../observations/',consultation.id]">Details</button>
                     </td>
                 </tr>
             </tbody>

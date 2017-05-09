@@ -1,0 +1,18 @@
+<div class="container bg-inverse text-white" style="opacity: 0.85" *ngIf="this.consultation">
+  <br>
+  <div class="form-group">
+    <textarea class="form-control" name="newObservation" [(ngModel)]="this.newObservation.text" maxlength="255" rows="3" style="resize:none">
+
+    </textarea>
+  </div>
+  <button class="btn btn-primary btn-block" (click)="addObservation()">Add observation</button>
+  <br>
+
+  <div *ngFor="let observation of this.consultation.observations">
+    <div class="form-group">
+      <textarea class="form-control" name="newObservation" rows="3" style="resize:none" readonly>{{observation.text }}</textarea>
+      <p class="pull-right">Created at {{observation.createdAt | date:"medium"}}</p>
+    </div>
+  </div>
+
+</div>

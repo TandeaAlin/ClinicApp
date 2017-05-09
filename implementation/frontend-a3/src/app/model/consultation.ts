@@ -17,4 +17,5 @@ export class Consultation {
 export class Observation{
     id: number;
     text: string;
+    createdAt: Date;
 }

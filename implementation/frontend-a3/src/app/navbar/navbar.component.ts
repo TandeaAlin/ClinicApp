@@ -8,6 +8,7 @@ import { AuthService } from '../service/auth.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  private notificationCount: number = 1;
 
   constructor(
     private authService: AuthService

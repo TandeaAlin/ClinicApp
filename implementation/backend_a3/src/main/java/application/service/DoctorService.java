@@ -10,5 +10,7 @@ public interface DoctorService {
 
     Doctor findById(int id);
 
+    Doctor findByUsername(String username);
+
     public Doctor updateDoctor(Doctor doctor);
 }

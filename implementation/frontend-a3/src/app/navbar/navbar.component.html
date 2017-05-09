@@ -24,10 +24,34 @@
 
     <li class="nav-item dropdown" [routerLinkActive]="['active']">
       <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">Consultations</a>
-      <ul class="dropdown-menu" style="padding:1rem">
-        <li><a [routerLink]="['consultation/list']">List consultations</a></li>
-        <li><a [routerLink]="['consultation/add']">New consultation</a></li>
+      <ul class="dropdown-menu " style="padding:1rem">
+        <li><a [routerLink]="['consultation/list']">List consultations </a></li>
+        <li><a [routerLink]="['consultation/list-upcoming']" *ngIf="this.authService.isDoctor()">Upcoming consultations</a></li>
+        <li><a [routerLink]="['consultation/list-patient']" *ngIf="this.authService.isDoctor()">See consultations for patient</a></li>
+        <li><a [routerLink]="['consultation/add']" *ngIf="this.authService.isSecretary()">New consultation</a></li>
       </ul>
+    </li>
+
+    <li class=" nav-item dropdown dropdown-notifications">
+      <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+        <i [attr.data-count]="this.notificationCount" class="fa fa-bell notification-icon"></i>
+      </a>
+
+      <div class="dropdown-container bg-inverse text-white">
+        
+        <div class="dropdown-toolbar bg-inverse text-white">
+          <h3 class="dropdown-toolbar-title">Notifications ({{this.notificationCount}})</h3>
+        </div>
+
+        <ul class="dropdown-menu bg-inverse text-white">
+          HERE GOES NOTIFICATION
+        </ul>
+
+        <div class="dropdown-footer text-center bg-inverse text-white">
+          <a href="#">View All</a>
+        </div>
+
+      </div>
     </li>
 
   </ul>

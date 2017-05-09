@@ -14,6 +14,7 @@ import { Doctor, WorkingHour } from '../../model/doctor';
 })
 export class ScheduleComponent implements OnInit {
 
+  private message: string;
   private days = ['Mon', 'Tue', 'Weed', 'Thu', 'Fri', 'Sat', 'Sun']
   private matrix;
   private doctor: Doctor;
@@ -46,10 +47,10 @@ export class ScheduleComponent implements OnInit {
     this.doctorService.updateDoctor(this.doctor)
       .subscribe(
           client => {
-            console.log("Done");
+            this.message = "Schedule was updated";
           },
           err => {
-            console.log(err);
+            this.message = "ERROR: The schedule could not be updated";
           });
   }
 
@@ -62,6 +63,7 @@ export class ScheduleComponent implements OnInit {
           this.doctor=doctor;
           this.initMatrix();
           this.scheduleToMatrix();
+          this.message = null;
         });
     });
   }

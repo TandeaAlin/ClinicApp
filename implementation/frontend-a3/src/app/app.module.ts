@@ -16,6 +16,8 @@ import { UserFormComponent } from './user/user-form/user-form.component';
 import { HttpService } from './service/http.service';
 import { AuthService } from './service/auth.service';
 
+import { LoginComponent } from './login/login.component';
+
 import { ConfirmComponent } from './dialogs/confirm/confirm.component';
 import { InfoComponent } from './dialogs/info/info.component';
 import { InputComponent } from './dialogs/input/input.component';
@@ -28,7 +30,9 @@ import { ConsultationListComponent } from './consultation/consultation-list/cons
 import { ConsultationAddComponent } from './consultation/consultation-add/consultation-add.component';
 import { ConsultationFormComponent } from './consultation/consultation-form/consultation-form.component';
 import { ConsultationDetailComponent } from './consultation/consultation-detail/consultation-detail.component';
-import { LoginComponent } from './login/login.component';
+import { ObservationsComponent } from './consultation/observations/observations.component';
+import { UpcomingConsultationListComponent } from './consultation/upcoming-consultation-list/upcoming-consultation-list.component';
+import { PatientConsultationListComponent } from './consultation/patient-consultation-list/patient-consultation-list.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +54,10 @@ import { LoginComponent } from './login/login.component';
     ConsultationAddComponent,
     ConsultationFormComponent,
     ConsultationDetailComponent,
-    LoginComponent
+    LoginComponent,
+    ObservationsComponent,
+    UpcomingConsultationListComponent,
+    PatientConsultationListComponent
   ],
   imports: [
     BrowserModule,

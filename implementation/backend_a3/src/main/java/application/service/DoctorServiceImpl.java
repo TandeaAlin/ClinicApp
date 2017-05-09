@@ -22,6 +22,10 @@ public class DoctorServiceImpl implements DoctorService{
         return this.doctorRepository.findOne(id);
     }
 
+    public Doctor findByUsername(String username) {
+        return this.doctorRepository.findByUsername(username);
+    }
+
     public Doctor updateDoctor(Doctor doctor){
         Doctor doc = this.doctorRepository.findOne(doctor.getId());
 
