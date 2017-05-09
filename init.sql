@@ -44,9 +44,9 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `assignment3`.`Patient` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `fullName` VARCHAR(45) NOT NULL,
-  `idCardSeries` VARCHAR(45) NOT NULL,
-  `idCardNumber` VARCHAR(45) NOT NULL,
-  `personalNumericalCode` VARCHAR(45) NOT NULL,
+  `idCardSeries` VARCHAR(2) NOT NULL,
+  `idCardNumber` VARCHAR(6) NOT NULL,
+  `personalNumericalCode` VARCHAR(13) NOT NULL,
   `address` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `personalNumericalCode_UNIQUE` (`personalNumericalCode` ASC))
@@ -151,6 +151,24 @@ CREATE TABLE IF NOT EXISTS `assignment3`.`Notification` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `assignment3`.`Observation`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `assignment3`.`Observation` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `consultationId` INT NOT NULL,
+  `text` VARCHAR(255) NOT NULL,
+  `createdAt` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_Observation_Consultation1_idx` (`consultationId` ASC),
+  CONSTRAINT `fk_Observation_Consultation1`
+    FOREIGN KEY (`consultationId`)
+    REFERENCES `assignment3`.`Consultation` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
@@ -174,24 +192,34 @@ END//
 DELIMITER ;
 
 INSERT INTO `assignment3`.`user` (`username`, `password`, `fullName`) VALUES ('admin', 'admin', 'Administrator');
-INSERT INTO `assignment3`.`user` (`username`, `password`, `fullName`) VALUES ('doctor', 'doctor', 'Doctor');
 INSERT INTO `assignment3`.`user` (`username`, `password`, `fullName`) VALUES ('secretary', 'secretary', 'Secretary');
+INSERT INTO `assignment3`.`user` (`username`, `password`, `fullName`) VALUES ('doctor1', 'doctor1', 'Doctor One');
+INSERT INTO `assignment3`.`user` (`username`, `password`, `fullName`) VALUES ('doctor2', 'doctor2', 'Doctor Two');
 
-INSERT INTO `assignment3`.`role` (`name`) VALUES ('admin');
-INSERT INTO `assignment3`.`role` (`name`) VALUES ('doctor');
-INSERT INTO `assignment3`.`role` (`name`) VALUES ('secretary');
+INSERT INTO `assignment3`.`role` (`name`) VALUES ('ADMIN');
+INSERT INTO `assignment3`.`role` (`name`) VALUES ('SECRETARY');
+INSERT INTO `assignment3`.`role` (`name`) VALUES ('DOCTOR');
 
 INSERT INTO `assignment3`.`user_has_role` (`User_id`, `Role_id`) VALUES ('1', '1');
 INSERT INTO `assignment3`.`user_has_role` (`User_id`, `Role_id`) VALUES ('2', '2');
 INSERT INTO `assignment3`.`user_has_role` (`User_id`, `Role_id`) VALUES ('3', '3');
+INSERT INTO `assignment3`.`user_has_role` (`User_id`, `Role_id`) VALUES ('4', '3');
 
 INSERT INTO `assignment3`.`workinghour`(`startHour`,`endHour`,`dayOfWeek`,`doctorId`) VALUES
-('8', '17', '4', '2'),
-('8', '17', '3', '2'),
-('8', '17', '1', '2'),
-('8', '17', '2', '2'),
-('8', '12', '5', '2'),
-('14', '17', '5', '2');
+('8', '17', '4', '3'),
+('8', '17', '3', '3'),
+('8', '17', '1', '3'),
+('8', '17', '2', '3'),
+('8', '12', '5', '3'),
+('14', '17', '5', '3'),
+('10', '18', '3', '4'),
+('17', '21', '7', '4'),
+('10', '18', '2', '4'),
+('12', '16', '6', '4'),
+('17', '21', '6', '4'),
+('12', '16', '7', '4'),
+('15', '20', '4', '4'),
+('10', '13', '4', '4');
 
 INSERT INTO `assignment3`.`patient` (`fullName`,`idCardSeries`,`idCardNumber`,`personalNumericalCode`,`address`) VALUES
 ('Zeic Naomi Ioana','KZ','113720','1970208307432','Str. Observatorului Nr. 93'),
@@ -209,3 +237,35 @@ INSERT INTO `assignment3`.`patient` (`fullName`,`idCardSeries`,`idCardNumber`,`p
 ('Neamtu Bogdan - Costel','ZV','344006','2970907466101','Str. Bucuresti Nr. 83'),
 ('Lepinzan Bogdan Daniel','SV','539113','1960408351875','Str. Farbicii de Zahar Nr. 39'),
 ('Rad Simion Marius','RR','759394','2960626422196','Str. Dambovitei Nr. 39');
+
+INSERT INTO `assignment3`.`consultation` (`patientId`,`startsAt`,`endsAt`,`doctorId`) VALUES
+('1', '2017-05-09 08:15:00', '2017-05-09 09:00:00', '3'),
+('1', '2017-05-09 09:00:00', '2017-05-09 09:15:00', '3'),
+('2', '2017-05-08 10:30:00', '2017-05-09 11:15:00', '4'),
+('2', '2017-05-09 11:15:00', '2017-05-09 11:45:00', '4'),
+('3', '2017-05-09 09:15:00', '2017-05-09 09:45:00', '3'),
+('3', '2017-05-09 11:45:00', '2017-05-09 12:00:00', '4'),
+('4', '2017-05-09 11:45:00', '2017-05-09 12:45:00', '3'),
+('4', '2017-05-09 13:00:00', '2017-05-09 13:15:00', '3'),
+('5', '2017-05-10 10:15:00', '2017-05-10 10:45:00', '4'),
+('5', '2017-05-10 10:15:00', '2017-05-10 11:00:00', '3'),
+('6', '2017-05-10 11:00:00', '2017-05-10 11:15:00', '4'),
+('6', '2017-05-10 11:15:00', '2017-05-10 12:00:00', '4'),
+('7', '2017-05-10 11:15:00', '2017-05-10 12:00:00', '3'),
+('7', '2017-05-10 19:15:00', '2017-05-08 19:30:00', '4'),
+('8', '2017-05-10 19:15:00', '2017-05-08 19:30:00', '4'),
+('8', '2017-05-16 10:15:00', '2017-05-16 11:00:00', '4'),
+('9', '2017-05-16 10:15:00', '2017-05-16 11:00:00', '3'),
+('9', '2017-05-16 11:15:00', '2017-05-16 11:45:00', '3'),
+('10', '2017-05-16 11:45:00', '2017-05-16 12:00:00', '3'),
+('10', '2017-05-16 12:15:00', '2017-05-16 12:45:00', '3'),
+('11', '2017-05-16 13:15:00', '2017-05-16 13:30:00', '3'),
+('11', '2017-05-16 13:30:00', '2017-05-16 14:00:00', '3'),
+('12', '2017-05-16 11:15:00', '2017-05-16 12:00:00', '4'),
+('12', '2017-05-16 12:00:00', '2017-05-16 12:45:00', '4'),
+('13', '2017-05-16 14:00:00', '2017-05-16 14:15:00', '3'),
+('13', '2017-05-16 12:45:00', '2017-05-16 13:15:00', '4'),
+('14', '2017-05-16 14:15:00', '2017-05-16 15:00:00', '3'),
+('14', '2017-05-16 13:15:00', '2017-05-16 13:45:00', '4'),
+('15', '2017-05-16 13:45:00', '2017-05-16 14:00:00', '4'),
+('15', '2017-05-16 14:15:00', '2017-05-16 14:30:00', '4');
