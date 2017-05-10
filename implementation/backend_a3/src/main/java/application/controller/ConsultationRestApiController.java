@@ -1,11 +1,13 @@
 package application.controller;
 
+import application.exceptions.InvalidDataException;
 import application.model.Consultation;
 import application.model.Doctor;
 import application.model.Patient;
 import application.service.ConsultationService;
 import application.service.DoctorService;
 import application.service.PatientService;
+import application.validators.PatientValidator;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -106,8 +108,8 @@ public class ConsultationRestApiController {
     }
 
     @PreAuthorize("hasRole('ROLE_SECRETARY')")
-    @RequestMapping(value = "/consultation/day={day}", method = RequestMethod.GET)
-    public ResponseEntity<?> getConsultationByDay(@PathVariable("day") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE) String day) {
+    @RequestMapping(value = "/consultation/day={day}&doctorId={id}", method = RequestMethod.GET)
+    public ResponseEntity<?> getConsultationByDay(@PathVariable("day") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE) String day, @PathVariable("id") int doctorId) {
         ISO8601DateFormat format = new ISO8601DateFormat();
 
         Date parsedDay;
@@ -117,7 +119,8 @@ public class ConsultationRestApiController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        List<Consultation> consultations = this.consultationService.findByDay(parsedDay);
+        Doctor doctor = this.doctorService.findById(doctorId);
+        List<Consultation> consultations = this.consultationService.findByDay(doctor, parsedDay);
 
         if( consultations.isEmpty()){
             return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -131,7 +134,11 @@ public class ConsultationRestApiController {
     public ResponseEntity<?> createConsultation(@RequestBody Consultation consultation) {
         Consultation newConsultation;
 
-        newConsultation = this.consultationService.saveConsultation(consultation);
+        try {
+            newConsultation = this.consultationService.saveConsultation(consultation);
+        } catch (InvalidDataException e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
 
         return new ResponseEntity<>(newConsultation, HttpStatus.CREATED);
     }
@@ -145,7 +152,11 @@ public class ConsultationRestApiController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
-        currentConsultation = this.consultationService.updateConsultation(consultation);
+        try {
+            currentConsultation = this.consultationService.updateConsultation(consultation);
+        } catch (InvalidDataException e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
 
         return new ResponseEntity<>(currentConsultation, HttpStatus.OK);
     }

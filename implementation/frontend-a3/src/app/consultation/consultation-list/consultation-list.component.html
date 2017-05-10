@@ -52,7 +52,7 @@
                     </td>
                     <td>{{ (consultation.endTime - consultation.startTime) / (60 * 1000)}} min</td>
                     <td>
-                        <button type="button" class="btn btn-sm btn-primary" [routerLink]="['../../observations/',consultation.id]">Details</button>
+                        <button type="button" class="btn btn-sm btn-primary" [routerLink]="['../observations/',consultation.id]">Details</button>
                     </td>
                 </tr>
             </tbody>

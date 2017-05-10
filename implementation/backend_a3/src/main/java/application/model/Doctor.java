@@ -10,7 +10,7 @@ import java.util.Set;
 @PrimaryKeyJoinColumn(name="id")
 public class Doctor extends User{
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch  = FetchType.EAGER, mappedBy = "doctor", orphanRemoval = true)
     @JsonManagedReference
     Set<WorkingHour> workingHours;
 

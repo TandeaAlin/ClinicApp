@@ -1,5 +1,7 @@
 package application.controller;
 
+import application.exceptions.DuplicateException;
+import application.exceptions.InvalidDataException;
 import application.model.Patient;
 import application.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +55,13 @@ public class PatientRestApiController {
     public ResponseEntity<?> createPatient(@RequestBody Patient patient) {
         Patient newPatient;
 
-        newPatient = this.patientService.savePatient(patient);
+        try {
+            newPatient = this.patientService.savePatient(patient);
+        } catch (InvalidDataException e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        } catch (DuplicateException e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
 
         return new ResponseEntity<>(newPatient, HttpStatus.CREATED);
     }
@@ -66,7 +74,13 @@ public class PatientRestApiController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
-        currentPatient = this.patientService.updatePatient(patient);
+        try {
+            currentPatient = this.patientService.updatePatient(patient);
+        } catch (InvalidDataException e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        } catch (DuplicateException e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
 
         return new ResponseEntity<>(currentPatient, HttpStatus.OK);
     }

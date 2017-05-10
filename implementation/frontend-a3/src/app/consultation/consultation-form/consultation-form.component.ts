@@ -68,10 +68,6 @@ export class ConsultationFormComponent implements OnInit {
       .debounceTime(500)
       .subscribe(values => {
         if (this.startDate) {
-          let dayOfWeek = this.startDate.getDay();
-          if (dayOfWeek == 0) {
-            dayOfWeek = 7;
-          }
 
           if (this.startHour == null ||
             this.startHour.getDay() != this.startDate.getDay() ||
@@ -84,49 +80,61 @@ export class ConsultationFormComponent implements OnInit {
             this.startHour.setSeconds(0);
           }
 
-          let schedule = this.consultation.doctor.workingHours
-            .filter(workingHour => workingHour.dayOfWeek == dayOfWeek);
-
-          if (schedule.length == 0) {
-            this.scheduleMsg = "The doctor is not available for this day";
-
-          } else {
-            this.scheduleMsg = "The doctor is available between ";
-            schedule.map((workingHour: WorkingHour) => {
-              this.scheduleMsg += workingHour.startHour + " - " + workingHour.endHour + ", ";
-            });
-
-            let dayString = this.startDate.getFullYear() + "-";
-
-            if (this.startDate.getMonth() + 1 < 10) {
-              dayString += "0" + (this.startDate.getMonth() + 1) + "-";
-            } else {
-              dayString += (this.startDate.getMonth() + 1) + "-";
-            }
-
-            if (this.startDate.getDate() < 10) {
-              dayString += "0" + this.startDate.getDate();
-            } else {
-              dayString += this.startDate.getDate();
-            }
-
-            this.consultationService.getConsultationByDay(dayString).subscribe((consultations: Consultation[]) => {
-              if (consultations != null) {
-                this.consultations = [];
-
-                consultations.forEach((consultation: Consultation) => {
-                  this.consultations.push(this.getInterval(consultation));
-                });
-              } else {
-                this.consultations = null;
-              }
-            });
+          if (values.doctor) {
+            this.consultation.doctor = values.doctor;
           }
+          this.displayDoctorSchedule();
         }
 
         this.error = !this.checkInputs(values);
         this.errorEmitter.emit(this.error);
       });
+  }
+
+  private displayDoctorSchedule(): void {
+    let dayOfWeek = this.startDate.getDay();
+    if (dayOfWeek == 0) {
+      dayOfWeek = 7;
+    }
+
+    let schedule = this.consultation.doctor.workingHours
+      .filter(workingHour => workingHour.dayOfWeek == dayOfWeek);
+
+    if (schedule.length == 0) {
+      this.scheduleMsg = "The doctor is not available for this day";
+
+    } else {
+      this.scheduleMsg = "The doctor is available between ";
+      schedule.map((workingHour: WorkingHour) => {
+        this.scheduleMsg += workingHour.startHour + " - " + workingHour.endHour + ", ";
+      });
+
+      let dayString = this.startDate.getFullYear() + "-";
+
+      if (this.startDate.getMonth() + 1 < 10) {
+        dayString += "0" + (this.startDate.getMonth() + 1) + "-";
+      } else {
+        dayString += (this.startDate.getMonth() + 1) + "-";
+      }
+
+      if (this.startDate.getDate() < 10) {
+        dayString += "0" + this.startDate.getDate();
+      } else {
+        dayString += this.startDate.getDate();
+      }
+
+      this.consultationService.getConsultationByDay(this.doctor.id, dayString).subscribe((consultations: Consultation[]) => {
+        if (consultations != null) {
+          this.consultations = [];
+
+          consultations.forEach((consultation: Consultation) => {
+            this.consultations.push(this.getInterval(consultation));
+          });
+        } else {
+          this.consultations = null;
+        }
+      });
+    }
   }
 
   private getInterval(consultation: Consultation): string {
@@ -203,6 +211,21 @@ export class ConsultationFormComponent implements OnInit {
 
     let result: boolean = true;
 
+    if (this.patient == null) {
+      result = false;
+    }
+
+    if (this.doctor == null) {
+      result = false;
+    }
+
+    if (this.startHour == null) {
+      result = false;
+    }
+
+    if (this.duration == null) {
+      result = false;
+    }
 
     return result;
   }

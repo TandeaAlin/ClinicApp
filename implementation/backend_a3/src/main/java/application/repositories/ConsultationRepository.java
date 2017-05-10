@@ -11,7 +11,9 @@ import java.util.List;
 
 @Repository
 public interface ConsultationRepository extends JpaRepository<Consultation, Integer> {
-    List<Consultation> findByStartTimeBetween(Date start, Date end);
+    List<Consultation> findByDoctorAndStartTimeBetween(Doctor doctor, Date start, Date end);
+
+    List<Consultation> findByPatientAndStartTimeBetween(Patient patient, Date start, Date end);
 
     List<Consultation> findByDoctor(Doctor doctor);
 

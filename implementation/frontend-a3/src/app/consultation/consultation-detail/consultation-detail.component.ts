@@ -8,13 +8,16 @@ import { InputComponent } from '../../dialogs/input/input.component';
 import { ConsultationFormComponent } from '../consultation-form/consultation-form.component';
 import { ConsultationService } from '../../service/consultation.service';
 import { Consultation } from '../../model/consultation';
+import { NotificationService } from '../../service/notification.service';
+import { Notification } from '../../model/notification';
 
 @Component({
   selector: 'app-consultation-detail',
   templateUrl: './consultation-detail.component.html',
   styleUrls: ['./consultation-detail.component.css'],
   providers: [
-    ConsultationService
+    ConsultationService,
+    NotificationService
   ]
 })
 export class ConsultationDetailComponent implements OnInit {
@@ -29,6 +32,7 @@ export class ConsultationDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private consultationService: ConsultationService,
+    private notificationService: NotificationService,
     private dialogService: DialogService
   ) { }
 
@@ -81,6 +85,14 @@ export class ConsultationDetailComponent implements OnInit {
 
   processEvent(event): void {
     this.error = event;
+  }
+
+  private sendNotification(): void{
+    this.notificationService.createNotificationForConsultation(this.consultation)
+      .subscribe(
+        notification => { this.showMessage("Success","The doctor was notified", true);},
+        err => { this.showMessage("Error","The doctor could not be notified",false);}
+      );
   }
 
   showMessage(title: string, message: string, success: boolean): void {

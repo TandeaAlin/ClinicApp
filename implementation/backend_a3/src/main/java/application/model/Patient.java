@@ -102,8 +102,27 @@ public class Patient {
         date.append("-");
         date.append(this.personalNumericalCode.substring(3,5));
         date.append("-");
-        // TODO: Add logic for deciding between 18, 19 and 20
-        date.append("19");
+
+        int year =Integer.parseInt(this.personalNumericalCode.substring(0,1));
+
+        switch(year){
+            case 1:
+            case 2:
+                date.append("19");
+                break;
+            case 3:
+            case 4:
+                date.append("18");
+                break;
+            case 5:
+            case 6:
+                date.append("20");
+                break;
+            default:
+                date.append("19");
+                break;
+        }
+
         date.append(this.personalNumericalCode.substring(1,3));
 
         DateFormat format = new SimpleDateFormat("dd-MM-yyyy");

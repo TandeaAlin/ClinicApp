@@ -23,7 +23,7 @@ public class Consultation {
     @JoinColumn(name="doctorId")
     private Doctor doctor;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "consultation", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "consultation", orphanRemoval = true)
     @JsonManagedReference
     private List<Observation> observations;
 
@@ -79,5 +79,16 @@ public class Consultation {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Consultation{" +
+                "id=" + id +
+                ", patient=" + patient.getFullName() +
+                ", doctor=" + doctor.getFullName() +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                '}';
     }
 }

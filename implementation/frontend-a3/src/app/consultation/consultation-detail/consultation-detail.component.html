@@ -3,6 +3,10 @@
   <app-consultation-form [model]="this.consultation" [editable]="this.editMode" (errorEmitter)="this.processEvent($event)">
   </app-consultation-form>
 
+  <div class="pull-left">
+    <button type="button" class="btn btn-warning" (click)="sendNotification()">Notify doctor</button>
+  </div>
+
   <div class="pull-right">
     <span *ngIf="this.updated==true"><i class="fa fa-check fa-2x" style="color:green"></i> {{this.message}}</span>
     <span *ngIf="this.updated==false"><i class="fa fa-times fa-2x" style="color:red"></i> {{this.message}}</span>

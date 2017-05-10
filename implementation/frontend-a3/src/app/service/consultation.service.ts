@@ -31,8 +31,8 @@ export class ConsultationService {
   }
 
   // The day should be in ISO8601 format
-  getConsultationByDay(day: string): Observable<Consultation[]> {
-    return this.httpService.get(this.consultationUrl + 'day=' + day)
+  getConsultationByDay(doctorId:number, day: string): Observable<Consultation[]> {
+    return this.httpService.get(this.consultationUrl + 'day=' + day + '&doctorId=' + doctorId)
       .map((res: Response) => res.json());
   }
 
