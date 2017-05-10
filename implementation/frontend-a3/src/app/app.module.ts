@@ -33,6 +33,7 @@ import { ConsultationDetailComponent } from './consultation/consultation-detail/
 import { ObservationsComponent } from './consultation/observations/observations.component';
 import { UpcomingConsultationListComponent } from './consultation/upcoming-consultation-list/upcoming-consultation-list.component';
 import { PatientConsultationListComponent } from './consultation/patient-consultation-list/patient-consultation-list.component';
+import { NotificationListComponent } from './notification-list/notification-list.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { PatientConsultationListComponent } from './consultation/patient-consult
     LoginComponent,
     ObservationsComponent,
     UpcomingConsultationListComponent,
-    PatientConsultationListComponent
+    PatientConsultationListComponent,
+    NotificationListComponent
   ],
   imports: [
     BrowserModule,

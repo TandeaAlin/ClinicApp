@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { LoginComponent } from './login/login.component';
+import { NotificationListComponent } from './notification-list/notification-list.component';
 
 import { UserListComponent } from './user/user-list/user-list.component';
 import { UserAddComponent } from './user/user-add/user-add.component';
@@ -29,6 +30,10 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
+    path: 'notification-list',
+    component: NotificationListComponent
+  },
+  {
     path: 'user',
     children: [
       { path: 'list', component: UserListComponent },
@@ -54,8 +59,6 @@ const routes: Routes = [
       { path: 'observations/:id', component: ObservationsComponent },
       { path: 'list-upcoming', component: UpcomingConsultationListComponent },
       { path: 'list-patient', component: PatientConsultationListComponent }
-      // patient=
-      // upcoming
     ]
   }
 ];

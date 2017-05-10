@@ -34,21 +34,26 @@
 
     <li class=" nav-item dropdown dropdown-notifications">
       <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-        <i [attr.data-count]="this.notificationCount" class="fa fa-bell notification-icon"></i>
+        <i [attr.data-count]="this.notificationCount" class="fa fa-bell" [ngClass]="{'notification-icon': this.notificationCount!=0}"></i>
       </a>
 
       <div class="dropdown-container bg-inverse text-white">
-        
+
         <div class="dropdown-toolbar bg-inverse text-white">
           <h3 class="dropdown-toolbar-title">Notifications ({{this.notificationCount}})</h3>
         </div>
 
         <ul class="dropdown-menu bg-inverse text-white">
-          HERE GOES NOTIFICATION
+          <div class="notification-content" *ngFor="let notification of this.notifications">
+            <i class="fa fa-envelope"></i>
+            {{notification.text}}
+            <i class="fa fa-arrow-right" style="color:red; cursor:pointer" (click)="markAsRead(notification)" ></i>
+            <br>
+          </div>
         </ul>
 
         <div class="dropdown-footer text-center bg-inverse text-white">
-          <a href="#">View All</a>
+          <a href="#" [routerLink]="['notification-list']">View All</a>
         </div>
 
       </div>

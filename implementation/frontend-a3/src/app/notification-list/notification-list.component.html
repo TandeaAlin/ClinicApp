@@ -1,0 +1,23 @@
+<div class="container" style="opacity:0.97;">
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover table-inverse">
+      <thead>
+        <th>Id</th>
+        <th>Created At</th>
+        <th>Text</th>
+        <th>Consultation ID</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let notification of this.notifications">
+          <td>{{notification.id}}</td>
+          <td>{{notification.createdAt | date:"medium"}}</td>
+          <td>{{notification.text}}</td>
+          <td>
+            {{notification.consultation.id}}
+            <i class="fa fa-arrow-right" style="cursor:pointer" [routerLink]="['../consultation/observations',notification.consultation.id]"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
