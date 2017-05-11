@@ -116,7 +116,6 @@ public class Consultation {
         if (id != that.id) return false;
         if (patient != null ? !patient.equals(that.patient) : that.patient != null) return false;
         if (doctor != null ? !doctor.equals(that.doctor) : that.doctor != null) return false;
-        if (observations != null ? !observations.equals(that.observations) : that.observations != null) return false;
         if (startTime != null ? !startTime.equals(that.startTime) : that.startTime != null) return false;
         return endTime != null ? endTime.equals(that.endTime) : that.endTime == null;
     }
