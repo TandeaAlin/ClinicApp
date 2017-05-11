@@ -1,6 +1,8 @@
 package application.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -24,6 +26,7 @@ public class Consultation {
     private Doctor doctor;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "consultation", orphanRemoval = true)
+    @Fetch(FetchMode.SUBSELECT)
     @JsonManagedReference
     private List<Observation> observations;
 
@@ -113,6 +116,7 @@ public class Consultation {
         if (id != that.id) return false;
         if (patient != null ? !patient.equals(that.patient) : that.patient != null) return false;
         if (doctor != null ? !doctor.equals(that.doctor) : that.doctor != null) return false;
+        if (observations != null ? !observations.equals(that.observations) : that.observations != null) return false;
         if (startTime != null ? !startTime.equals(that.startTime) : that.startTime != null) return false;
         return endTime != null ? endTime.equals(that.endTime) : that.endTime == null;
     }
@@ -122,6 +126,7 @@ public class Consultation {
         int result = id;
         result = 31 * result + (patient != null ? patient.hashCode() : 0);
         result = 31 * result + (doctor != null ? doctor.hashCode() : 0);
+        result = 31 * result + (observations != null ? observations.hashCode() : 0);
         result = 31 * result + (startTime != null ? startTime.hashCode() : 0);
         result = 31 * result + (endTime != null ? endTime.hashCode() : 0);
         return result;

@@ -39,7 +39,10 @@ export class ObservationsComponent implements OnInit {
       let id = params['id'];
 
       this.consultationService.getConsultationById(id)
-        .subscribe((consultation: Consultation) => this.consultation = consultation);
+        .subscribe((consultation: Consultation) => {
+          this.consultation = consultation;
+          console.log(this.consultation);
+        });
     });
   }
 
@@ -61,6 +64,7 @@ export class ObservationsComponent implements OnInit {
           "Error",
           "This observation could not be added",
           false);
+        console.log(err);
       });;
   }
 

@@ -77,6 +77,28 @@ public class ConsultationServiceImpl implements ConsultationService{
             throw new InvalidDataException("The consultation cannot be scheduled in the past");
         }
 
+        validateConsultation(consultation); // An exception will be thrown if any error is found
+
+        return this.consultationRepository.save(consultation);
+    }
+
+    public Consultation updateConsultation(Consultation consultation) throws InvalidDataException {
+        Consultation c1 = this.consultationRepository.findOne(consultation.getId());
+
+        if(c1.getStartTime().equals(consultation.getStartTime()) && c1.getEndTime().equals(consultation.getEndTime())){
+            return this.saveConsultation(consultation); // Time changed => Treat it as a new consultation
+        } else {
+            validateConsultation(consultation); // If the time we have less things to validate
+
+            return this.consultationRepository.save(consultation);
+        }
+    }
+
+    public void deleteConsultationById(int id) {
+        this.consultationRepository.delete(id);
+    }
+
+    private void validateConsultation(Consultation consultation) throws InvalidDataException {
         if(!this.validateDoctorSchedule(consultation)){
             throw new InvalidDataException("The doctor isn't available at that time");
         }
@@ -88,16 +110,6 @@ public class ConsultationServiceImpl implements ConsultationService{
         if(!this.validatePatientOverlaps(consultation)){
             throw new InvalidDataException("The patient is scheduled for another consultation at that time");
         }
-
-        return this.consultationRepository.save(consultation);
-    }
-
-    public Consultation updateConsultation(Consultation consultation) throws InvalidDataException {
-        return this.saveConsultation(consultation);
-    }
-
-    public void deleteConsultationById(int id) {
-        this.consultationRepository.delete(id);
     }
 
     // Returns true if the consultation is inside the doctor's working hours
