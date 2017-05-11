@@ -85,8 +85,8 @@ CREATE TABLE IF NOT EXISTS `assignment3`.`Doctor` (
   CONSTRAINT `fk_Doctor_User1`
     FOREIGN KEY (`id`)
     REFERENCES `assignment3`.`User` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `assignment3`.`WorkingHour` (
     FOREIGN KEY (`doctorId`)
     REFERENCES `assignment3`.`Doctor` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -124,13 +124,13 @@ CREATE TABLE IF NOT EXISTS `assignment3`.`Consultation` (
   CONSTRAINT `fk_Consultation_Patient1`
     FOREIGN KEY (`patientId`)
     REFERENCES `assignment3`.`Patient` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Consultation_Doctor1`
     FOREIGN KEY (`doctorId`)
     REFERENCES `assignment3`.`Doctor` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -148,8 +148,8 @@ CREATE TABLE IF NOT EXISTS `assignment3`.`Notification` (
   CONSTRAINT `fk_Notification_Consultation1`
     FOREIGN KEY (`reference`)
     REFERENCES `assignment3`.`Consultation` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -166,8 +166,8 @@ CREATE TABLE IF NOT EXISTS `assignment3`.`Observation` (
   CONSTRAINT `fk_Observation_Consultation1`
     FOREIGN KEY (`consultationId`)
     REFERENCES `assignment3`.`Consultation` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -175,7 +175,21 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
+DELIMITER //
+DROP TRIGGER IF EXISTS delete_doctor_trigger//
+CREATE TRIGGER delete_doctor_trigger
+AFTER DELETE ON `user_has_role`
+FOR EACH ROW
 
+BEGIN
+    DECLARE doctor_role INT; 
+    SET doctor_role = (SELECT id FROM assignment3.role WHERE name="doctor");
+
+    if OLD.Role_id = doctor_role THEN     
+        DELETE FROM doctor WHERE ID = OLD.User_id;
+    END IF;
+END//
+DELIMITER ;
   
 DELIMITER //
 DROP TRIGGER IF EXISTS insert_doctor_trigger//
@@ -184,11 +198,17 @@ AFTER INSERT ON `user_has_role`
 FOR EACH ROW
 
 BEGIN
+  DECLARE exist INT;
     DECLARE doctor_role INT; 
     SET doctor_role = (SELECT id FROM assignment3.role WHERE name="doctor");
     
+
     if NEW.Role_id = doctor_role THEN
-      INSERT INTO doctor(`id`) VALUES (NEW.User_id);
+      SET exist = (SELECT id FROM assignment3.doctor WHERE id=NEW.User_id);
+      
+      if exist IS NULL THEN
+        INSERT INTO doctor(`id`) VALUES (NEW.User_id);
+      END IF;
     END IF;
 END//
 DELIMITER ;

@@ -1,9 +1,11 @@
 package application.service;
 
 import application.exceptions.DuplicateException;
+import application.model.Doctor;
 import application.model.User;
 import application.repositories.UserRepository;
 import application.security.JwtUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,6 +60,15 @@ public class UserServiceImpl implements UserService{
         if (user.getPassword() == null){
             User u = this.userRepository.findOne(user.getId());
             user.setPassword(u.getPassword());
+        }
+
+        if(u_username == null){
+            u_username = this.userRepository.findOne(user.getId());
+        }
+
+        if(u_username instanceof Doctor){
+            BeanUtils.copyProperties(user,u_username);
+            return this.userRepository.save(u_username);
         }
 
         return this.userRepository.save(user);

@@ -15,9 +15,9 @@ datasource:
     defaultSchema:
     maxPoolSize: 10
     hibernate:
-      hbm2ddl.method: update
-      show_sql: false
-      format_sql: true
+      hbm2ddl.method: none
+      show_sql: true
+      format_sql: false
       dialect: org.hibernate.dialect.MySQLDialect
 validation:
   allowedFirstDigit: 1,2,5,6
