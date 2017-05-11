@@ -44,6 +44,7 @@ export class NavbarComponent implements OnInit {
             this.notifications = notifications;
           } else {
             this.notificationCount = 0;
+            this.notifications = null;
           }
         },
         err => {

@@ -6,6 +6,7 @@ import application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class UserRestApiController {
     @Autowired
     private UserService userService;
 
-    // Return a list containing all the users
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/user/", method = RequestMethod.GET)
     public ResponseEntity<?> listAllUsers() {
         List<User> users = this.userService.findAllUsers();
@@ -29,7 +30,7 @@ public class UserRestApiController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    // Return a single user
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/user/id={id}", method = RequestMethod.GET)
     public ResponseEntity<?> getUser(@PathVariable("id") int id) {
         User user = this.userService.findById(id);
@@ -41,7 +42,7 @@ public class UserRestApiController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    // Add a new user
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/user/", method = RequestMethod.POST)
     public ResponseEntity<?> createUser(@RequestBody User user) {
         User newUser;
@@ -54,7 +55,7 @@ public class UserRestApiController {
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
-    // Update an user
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateUser(@PathVariable("id") int id, @RequestBody User user) {
         User currentUser = this.userService.findById(id);
@@ -72,7 +73,7 @@ public class UserRestApiController {
         return new ResponseEntity<>(currentUser, HttpStatus.OK);
     }
 
-    // Delete an user
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteUser(@PathVariable("id") int id) {
         User user = this.userService.findById(id);

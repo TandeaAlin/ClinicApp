@@ -6,6 +6,7 @@ import application.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class DoctorRestApiController {
     @Autowired
     private DoctorService doctorService;
 
-    // Return a list containing all the users
+    @PreAuthorize("hasRole('ROLE_SECRETARY')")
     @RequestMapping(value = "/doctor/", method = RequestMethod.GET)
     public ResponseEntity<?> listAllDoctors() {
         List<Doctor> doctors = this.doctorService.findAllDoctors();
@@ -29,7 +30,7 @@ public class DoctorRestApiController {
         return new ResponseEntity<>(doctors, HttpStatus.OK);
     }
 
-    // Return a doctor by id
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/doctor/id={id}", method = RequestMethod.GET)
     public ResponseEntity<?> getUser(@PathVariable("id") int id) {
         Doctor doctor = this.doctorService.findById(id);
@@ -41,6 +42,7 @@ public class DoctorRestApiController {
         return new ResponseEntity<>(doctor, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/doctor/id={id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateDoctor(@PathVariable("id") int id, @RequestBody Doctor doctor) {
         Doctor current = this.doctorService.findById(id);

@@ -6,7 +6,7 @@
       <a class="nav-link" [routerLink]="['/']">Home</a>
     </li>
 
-    <li class="nav-item dropdown" [routerLinkActive]="['active']">
+    <li class="nav-item dropdown" [routerLinkActive]="['active']" *ngIf="this.authService.isAdmin()">
       <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">Users</a>
       <ul class="dropdown-menu" style="padding:1rem">
         <li><a [routerLink]="['user/list']">List users</a></li>
@@ -14,7 +14,7 @@
       </ul>
     </li>
 
-    <li class="nav-item dropdown" [routerLinkActive]="['active']">
+    <li class="nav-item dropdown" [routerLinkActive]="['active']" *ngIf="this.authService.isSecretary()">
       <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">Patients</a>
       <ul class="dropdown-menu" style="padding:1rem">
         <li><a [routerLink]="['patient/list']">List patients</a></li>
@@ -22,7 +22,7 @@
       </ul>
     </li>
 
-    <li class="nav-item dropdown" [routerLinkActive]="['active']">
+    <li class="nav-item dropdown" [routerLinkActive]="['active']" *ngIf="this.authService.isDoctor() || this.authService.isSecretary()">
       <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">Consultations</a>
       <ul class="dropdown-menu " style="padding:1rem">
         <li><a [routerLink]="['consultation/list']">List consultations </a></li>
@@ -32,7 +32,7 @@
       </ul>
     </li>
 
-    <li class=" nav-item dropdown dropdown-notifications">
+    <li class=" nav-item dropdown dropdown-notifications" *ngIf="this.authService.isDoctor()">
       <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
         <i [attr.data-count]="this.notificationCount" class="fa fa-bell" [ngClass]="{'notification-icon': this.notificationCount!=0}"></i>
       </a>
