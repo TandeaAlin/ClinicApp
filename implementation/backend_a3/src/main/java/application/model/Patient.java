@@ -133,4 +133,33 @@ public class Patient {
             return new Date();
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Patient patient = (Patient) o;
+
+        if (id != patient.id) return false;
+        if (fullName != null ? !fullName.equals(patient.fullName) : patient.fullName != null) return false;
+        if (idCardSeries != null ? !idCardSeries.equals(patient.idCardSeries) : patient.idCardSeries != null)
+            return false;
+        if (idCardNumber != null ? !idCardNumber.equals(patient.idCardNumber) : patient.idCardNumber != null)
+            return false;
+        if (personalNumericalCode != null ? !personalNumericalCode.equals(patient.personalNumericalCode) : patient.personalNumericalCode != null)
+            return false;
+        return address != null ? address.equals(patient.address) : patient.address == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
+        result = 31 * result + (idCardSeries != null ? idCardSeries.hashCode() : 0);
+        result = 31 * result + (idCardNumber != null ? idCardNumber.hashCode() : 0);
+        result = 31 * result + (personalNumericalCode != null ? personalNumericalCode.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        return result;
+    }
 }

@@ -49,7 +49,7 @@ public class PatientServiceImpl implements PatientService{
             throw new InvalidDataException("Invalid ID Card Series.");
         }
 
-        if(!this.patientValidator.validateIdCardNumber(patient.getIdCardSeries())){
+        if(!this.patientValidator.validateIdCardNumber(patient.getIdCardNumber())){
             throw new InvalidDataException("Invalid ID Card number.");
         }
 

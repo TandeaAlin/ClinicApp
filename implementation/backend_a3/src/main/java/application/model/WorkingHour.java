@@ -28,6 +28,16 @@ public class WorkingHour {
     @JsonBackReference
     Doctor doctor;
 
+    public WorkingHour() {
+    }
+
+    public WorkingHour(int startHour, int endHour, int dayOfWeek, Doctor doctor) {
+        this.startHour = startHour;
+        this.endHour = endHour;
+        this.dayOfWeek = dayOfWeek;
+        this.doctor = doctor;
+    }
+
     @JsonIgnore
     public int getId() {
         return id;
@@ -79,5 +89,27 @@ public class WorkingHour {
                 ", dayOfWeek=" + dayOfWeek +
                 ", doctor=" + doctor +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        WorkingHour that = (WorkingHour) o;
+
+        if (id != that.id) return false;
+        if (startHour != that.startHour) return false;
+        if (endHour != that.endHour) return false;
+        return dayOfWeek == that.dayOfWeek;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + startHour;
+        result = 31 * result + endHour;
+        result = 31 * result + dayOfWeek;
+        return result;
     }
 }

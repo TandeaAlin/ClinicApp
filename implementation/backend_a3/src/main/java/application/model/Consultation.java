@@ -33,6 +33,17 @@ public class Consultation {
     @Column(name="endsAt", nullable=false)
     private Date endTime;
 
+    public Consultation(Patient patient, Doctor doctor, List<Observation> observations, Date startTime, Date endTime) {
+        this.patient = patient;
+        this.doctor = doctor;
+        this.observations = observations;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public Consultation() {
+    }
+
     public int getId() {
         return id;
     }
@@ -90,5 +101,29 @@ public class Consultation {
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Consultation that = (Consultation) o;
+
+        if (id != that.id) return false;
+        if (patient != null ? !patient.equals(that.patient) : that.patient != null) return false;
+        if (doctor != null ? !doctor.equals(that.doctor) : that.doctor != null) return false;
+        if (startTime != null ? !startTime.equals(that.startTime) : that.startTime != null) return false;
+        return endTime != null ? endTime.equals(that.endTime) : that.endTime == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (patient != null ? patient.hashCode() : 0);
+        result = 31 * result + (doctor != null ? doctor.hashCode() : 0);
+        result = 31 * result + (startTime != null ? startTime.hashCode() : 0);
+        result = 31 * result + (endTime != null ? endTime.hashCode() : 0);
+        return result;
     }
 }
