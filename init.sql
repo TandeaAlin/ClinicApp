@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `assignment3`.`WorkingHour` (
   CONSTRAINT `fk_WorkingHour_Doctor1`
     FOREIGN KEY (`doctorId`)
     REFERENCES `assignment3`.`Doctor` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 

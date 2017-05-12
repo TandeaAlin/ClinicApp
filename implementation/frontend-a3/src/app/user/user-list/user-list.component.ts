@@ -11,7 +11,7 @@ import { User } from '../../model/user';
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css'],
-  providers:[
+  providers: [
     UserService
   ]
 })
@@ -27,7 +27,7 @@ export class UserListComponent implements OnInit {
     this.getUsersData();
   }
 
-  private getUsersData():void {
+  private getUsersData(): void {
     this.userService.getUsers().subscribe(users => this.users = users);
   }
 
@@ -41,22 +41,34 @@ export class UserListComponent implements OnInit {
     ).subscribe(
       confirmation => {
         if (confirmation) {
-          this.userService.deleteUser(id)
-            .subscribe(
-            book => {
-              this.getUsersData();
-              this.showMessage(
-                "Success",
-                "User " + id + " was sucessfully deleted",
-                true
-              )
-            },
-            err => {
-              this.showMessage(
-                "Error",
-                "User " + id + " could not be deleted",
-                false);
-            })
+          this.deleteUser(id);
+        }
+      })
+  }
+
+  private deleteUser(id: number): void {
+    this.userService.deleteUser(id)
+      .subscribe(
+      book => {
+        this.getUsersData();
+        this.showMessage(
+          "Success",
+          "User " + id + " was sucessfully deleted",
+          true
+        )
+      },
+      err => {
+        if (err.status == 503) {
+          this.deleteUser(id);
+        } else {
+          let message: string =  "User " + id + " could not be deleted";
+          if (err.status == 400) {
+            message = "ERROR:" + err._body;
+          }
+          this.showMessage(
+            "Error",
+            message,
+            false);
         }
       })
   }

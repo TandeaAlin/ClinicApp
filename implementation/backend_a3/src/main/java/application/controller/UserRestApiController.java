@@ -1,14 +1,19 @@
 package application.controller;
 
 import application.exceptions.DuplicateException;
+import application.model.Doctor;
 import application.model.User;
+import application.repositories.DoctorRepository;
+import application.service.DoctorService;
 import application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -17,6 +22,9 @@ public class UserRestApiController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private DoctorService doctorService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/user/", method = RequestMethod.GET)
@@ -64,6 +72,11 @@ public class UserRestApiController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (currentUser.getUsername().equals(username)){
+            return new ResponseEntity<>("You cannot edit yourself",HttpStatus.BAD_REQUEST);
+        }
+
         try {
             currentUser = this.userService.updateUser(user);
         } catch (DuplicateException e) {
@@ -80,6 +93,23 @@ public class UserRestApiController {
 
         if (user == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (user.getUsername().equals(username)){
+            return new ResponseEntity<>("You cannot delete yourself",HttpStatus.BAD_REQUEST);
+        }
+
+        if(user instanceof Doctor){
+            ((Doctor) user).getWorkingHours().clear();
+            this.doctorService.updateDoctor((Doctor) user);
+            user.getRoles().clear();
+            try {
+                this.userService.updateUser(user);
+                return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+            } catch (DuplicateException e) {
+                ;
+            }
         }
 
         this.userService.deleteUserById(id);
